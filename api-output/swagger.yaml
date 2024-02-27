@@ -1,0 +1,158 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "SmartBear HR API",
+    "description" : "An API that allows user to obtain existing info of employees or post info of new employees.",
+    "termsOfService" : "https:/smartbear.com/terms-of-use",
+    "contact" : {
+      "name" : "Kshitij",
+      "url" : "google.com",
+      "email" : "mathurk29@gmail.com"
+    },
+    "license" : {
+      "name" : "SmartBear lincense",
+      "url" : "hrrp://license.foo.com"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://dev.foo.com/v1",
+    "description" : "Dev Server"
+  }, {
+    "url" : "http://prod.foo.com/v1",
+    "description" : "Prod Server"
+  } ],
+  "paths" : {
+    "/employees" : {
+      "get" : {
+        "description" : "Obtain info about employees from HR database.",
+        "parameters" : [ {
+          "name" : "bodyLimit",
+          "in" : "query",
+          "description" : "The number of employees to be returned.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 20,
+            "minimum" : 10,
+            "type" : "integer",
+            "example" : 15
+          }
+        }, {
+          "name" : "pageLimit",
+          "in" : "query",
+          "description" : "The number of pages to be returned.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 2,
+            "minimum" : 1,
+            "type" : "integer",
+            "example" : 5
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful pull of employees",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Creates a new employee in DB",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/employees_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully created new empolyee."
+          }
+        }
+      }
+    },
+    "/employees/{id}" : {
+      "get" : {
+        "description" : "Obtain info about specific employee",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of employee",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "example" : 4
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/employees_body"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "inline_response_200" : {
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 4
+          },
+          "employee name" : {
+            "type" : "string",
+            "example" : "Ryan"
+          },
+          "employee title" : {
+            "type" : "string",
+            "example" : "Market Manager"
+          }
+        }
+      },
+      "employees_body" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 4
+          },
+          "employee name" : {
+            "type" : "string",
+            "example" : "Ruan"
+          },
+          "employee titel" : {
+            "type" : "string",
+            "example" : "Market manager"
+          }
+        }
+      }
+    }
+  }
+}
